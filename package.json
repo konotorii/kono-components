@@ -1,0 +1,16 @@
+{
+  "name": "kono-components",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Konotorii",
+  "license": "MIT",
+  "description": "This package basically delivers the components I need that aren't provided by other packages.",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
