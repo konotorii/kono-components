@@ -12,7 +12,6 @@ interface Props {
     general: {
         uploadIcon?: ReactNode,
         content?: ReactNode,
-        cb?: any,
     }
     files: {
         multiple?: boolean,
@@ -26,6 +25,10 @@ interface Props {
         cors?: RequestMode,
         method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS",
     }
+    functions: {
+        onFinish?: any,
+        onError?: any,
+    }
 }
 
 export default function UploadBox(props: Props) {
@@ -34,7 +37,7 @@ export default function UploadBox(props: Props) {
     const handleFileChange = (event) => {
         const selectedFiles = event.target.files;
         if (selectedFiles && selectedFiles.length > 0) {
-            const newFiles: File[] = Array.from(selectedFiles);
+            const newFiles: File[] = selectedFiles
             setFiles((prevFiles) => [...prevFiles, ...newFiles]);
         }
     };
@@ -42,7 +45,7 @@ export default function UploadBox(props: Props) {
         event.preventDefault();
         const droppedFiles = event.dataTransfer.files;
         if (droppedFiles.length > 0) {
-            const newFiles: File[] = Array.from(droppedFiles);
+            const newFiles: File[] = droppedFiles
             setFiles((prevFiles) => [...prevFiles, ...newFiles]);
         }
     };
