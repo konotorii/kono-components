@@ -1,0 +1,43 @@
+name: CI
+
+on: workflow_dispatch
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+
+    outputs:
+      version: ${{ steps.changelog.outputs.version }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          create-summary: true
+          skip-on-empty: 'false'
+          skip-commit: 'false'
+
+      - name: Create release
+        id: create_release
+        uses: comnoco/create-release-action@v2.0.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.changelog.outputs.version }}
+          release_name: Release ${{ steps.changelog.outputs.version }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
