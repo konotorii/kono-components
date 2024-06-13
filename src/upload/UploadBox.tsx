@@ -3,6 +3,7 @@
 import {AiOutlineCheckCircle, AiOutlineCloudUpload} from "react-icons/ai";
 import {MdClear} from "react-icons/md";
 import {DragEventHandler, ReactNode, useEffect, useState} from "react";
+import axios, {AxiosHeaders, AxiosProgressEvent} from "axios";
 
 interface Props {
     styles: {
@@ -21,7 +22,7 @@ interface Props {
     }
     upload: {
         link?: string,
-        headers?: HeadersInit,
+        headers?: AxiosHeaders,
         cors?: RequestMode,
         method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS",
     }
@@ -32,13 +33,17 @@ interface Props {
 }
 
 export default function UploadBox(props: Props) {
-    const [files, setFiles] = useState<File[]>([]);
+    const {
+        functions, upload,files, general, styles
+    } = props
+
+    const [inMemoryFiles, setInMemoryFiles] = useState<File[]>([]);
 
     const handleFileChange = (event) => {
         const selectedFiles = event.target.files;
         if (selectedFiles && selectedFiles.length > 0) {
             const newFiles: File[] = selectedFiles
-            setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+            setInMemoryFiles((prevFiles) => [...prevFiles, ...newFiles]);
         }
     };
     const handleDrop = (event) => {
@@ -46,19 +51,37 @@ export default function UploadBox(props: Props) {
         const droppedFiles = event.dataTransfer.files;
         if (droppedFiles.length > 0) {
             const newFiles: File[] = droppedFiles
-            setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+            setInMemoryFiles((prevFiles) => [...prevFiles, ...newFiles]);
         }
     };
 
     const handleRemoveFile = (index: number) => {
-        setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+        setInMemoryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
+
+    const uploadFiles = () => {
+        try {
+            axios.request({
+                url: upload.link ?? "NOTHING",
+                headers: upload.headers,
+                method: upload.method ?? "POST",
+                onUploadProgress(progress: AxiosProgressEvent) {
+
+                },
+                data: files,
+            }).then(response => {
+                if (functions.onFinish) functions.onFinish(response);
+            })
+        } catch (e) {
+            if (functions.onError) functions.onError(e)
+        }
+    }
 
     return (
             <section className={`border-1 rounded-lg w-fit ml-auto mr-auto ${props.styles?.container ?? ''}`}>
                 <div
                     className={`p-2 flex flex-col items-center justify-center rounded-lg ${
-                        files.length > 0 ? "upload-box border-red-200" : "upload-box"
+                        inMemoryFiles.length > 0 ? "upload-box border-red-200" : "upload-box"
                     }`}
                     onDrop={handleDrop}
                     onDragOver={(event) => event.preventDefault()}
@@ -89,10 +112,10 @@ export default function UploadBox(props: Props) {
                         </label>
                     </>
 
-                    {files.length > 0 && (
+                    {inMemoryFiles.length > 0 && (
                         <div className="flex flex-col gap-1 w-full">
                             <div className="w-full h-full overflow-auto">
-                                {files.map((file, index) => (
+                                {inMemoryFiles.map((file, index) => (
                                     <div className="flex justify-between items-center p-1 border-1 rounded-lg"
                                          key={index}>
                                         <div className="flex flex-col gap-1 flex-1">
@@ -107,12 +130,12 @@ export default function UploadBox(props: Props) {
                         </div>
                     )}
 
-                    {files.length > 0 && (
+                    {inMemoryFiles.length > 0 && (
                         <div className="flex items-center">
                             <AiOutlineCheckCircle
                                 style={{color: "#6DC24B", marginRight: 1}}
                             />
-                            <p>{files.length} file(s) selected</p>
+                            <p>{inMemoryFiles.length} file(s) selected</p>
                         </div>
                     )}
                 </div>
