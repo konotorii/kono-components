@@ -1,4 +1,14 @@
-# 0.1.0 (2024-06-13)
+# [0.2.0](https://github.com/konotorii/kono-components/compare/v0.1.0...v0.2.0) (2024-06-13)
+
+
+### Features
+
+* Added axios dependency ([58e1e54](https://github.com/konotorii/kono-components/commit/58e1e54d261960c8c7da18ac739e034e63790c85))
+* Upload Files Function ([f160ee7](https://github.com/konotorii/kono-components/commit/f160ee74b95fd7533be63bf2024a71c028d7d0d9))
+
+
+
+# [0.1.0](https://github.com/konotorii/kono-components/compare/6ba3a4e133d47da00a2d5cebd12e7615e2f2ca82...v0.1.0) (2024-06-13)
 
 
 ### Bug Fixes
