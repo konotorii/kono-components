@@ -2,7 +2,7 @@
 
 import {AiOutlineCheckCircle, AiOutlineCloudUpload} from "react-icons/ai";
 import {MdClear} from "react-icons/md";
-import {DragEventHandler, ReactNode, useEffect, useState} from "react";
+import {ChangeEvent, DragEvent, ReactNode, useState} from "react";
 import axios, {AxiosHeaders, AxiosProgressEvent} from "axios";
 
 interface Props {
@@ -29,6 +29,7 @@ interface Props {
     functions: {
         onFinish?: any,
         onError?: any,
+        progress?: any,
     }
 }
 
@@ -39,18 +40,19 @@ export default function UploadBox(props: Props) {
 
     const [inMemoryFiles, setInMemoryFiles] = useState<File[]>([]);
 
-    const handleFileChange = (event) => {
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const selectedFiles = event.target.files;
         if (selectedFiles && selectedFiles.length > 0) {
-            const newFiles: File[] = selectedFiles
+            const newFiles: File[] = fileListArray(selectedFiles)
             setInMemoryFiles((prevFiles) => [...prevFiles, ...newFiles]);
         }
     };
-    const handleDrop = (event) => {
+
+    const handleDrop = (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         const droppedFiles = event.dataTransfer.files;
         if (droppedFiles.length > 0) {
-            const newFiles: File[] = droppedFiles
+            const newFiles: File[] = fileListArray(droppedFiles)
             setInMemoryFiles((prevFiles) => [...prevFiles, ...newFiles]);
         }
     };
@@ -59,6 +61,16 @@ export default function UploadBox(props: Props) {
         setInMemoryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
 
+    const fileListArray = (files: FileList) => {
+        const a: File[] = []
+
+        for (let i = 0; i < files.length; i++) {
+            a.push(files[i]);
+        }
+
+        return a
+    }
+
     const uploadFiles = () => {
         try {
             axios.request({
@@ -66,7 +78,7 @@ export default function UploadBox(props: Props) {
                 headers: upload.headers,
                 method: upload.method ?? "POST",
                 onUploadProgress(progress: AxiosProgressEvent) {
-
+                    functions.progress(progress)
                 },
                 data: files,
             }).then(response => {
@@ -78,7 +90,7 @@ export default function UploadBox(props: Props) {
     }
 
     return (
-            <section className={`border-1 rounded-lg w-fit ml-auto mr-auto ${props.styles?.container ?? ''}`}>
+            <section className={`border-1 rounded-lg w-fit ml-auto mr-auto ${styles?.container ?? ''}`}>
                 <div
                     className={`p-2 flex flex-col items-center justify-center rounded-lg ${
                         inMemoryFiles.length > 0 ? "upload-box border-red-200" : "upload-box"
@@ -87,13 +99,13 @@ export default function UploadBox(props: Props) {
                     onDragOver={(event) => event.preventDefault()}
                 >
                     <>
-                        <AiOutlineCloudUpload className="text-xl"/>
+                        {general.uploadIcon ?? <AiOutlineCloudUpload className="text-xl"/>}
                         <div className="flex items-center mb-1 text-center">
 
                             <div>
                                 <p className={'m-0 text-md'}>Drag and drop your files here</p>
                                 <p className={'m-0 text-md'}>
-                                    Limit 15MB per file. Supported files: .HTML, .HTM
+                                    Limit {props.files.maxSize} per file. Supported files: {props.files.accepted?.join(', ')}
                                 </p>
                             </div>
                         </div>
@@ -138,6 +150,9 @@ export default function UploadBox(props: Props) {
                             <p>{inMemoryFiles.length} file(s) selected</p>
                         </div>
                     )}
+                    <button onClick={uploadFiles}>
+                        Upload
+                    </button>
                 </div>
             </section>
     );
