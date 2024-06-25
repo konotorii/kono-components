@@ -1,3 +1,12 @@
+## [0.3.1](https://github.com/konotorii/kono-components/compare/v0.3.0...v0.3.1) (2024-06-25)
+
+
+### Bug Fixes
+
+* Remove test command from workflow ([#5](https://github.com/konotorii/kono-components/issues/5)) ([62e6f29](https://github.com/konotorii/kono-components/commit/62e6f2969f7376edc4a27dd1dc557a9bfc9fd6f9))
+
+
+
 # [0.3.0](https://github.com/konotorii/kono-components/compare/v0.2.0...v0.3.0) (2024-06-25)
 
 
