@@ -1,13 +1,13 @@
 {
   "name": "@konotorii/kono-components",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "publishConfig": {
-  "registry": "https://npm.pkg.github.com/@konotorii"
-},
+    "registry": "https://npm.pkg.github.com/@konotorii"
+  },
   "files": [
     "/dist"
   ],
