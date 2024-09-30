@@ -1,3 +1,12 @@
+# [0.4.0](https://github.com/konotorii/kono-components/compare/v0.3.1...v0.4.0) (2024-09-30)
+
+
+### Features
+
+* Created npm publish workflow config ([98c4fbb](https://github.com/konotorii/kono-components/commit/98c4fbbdef69c50491deaade81853c5f46c8a27b))
+
+
+
 ## [0.3.1](https://github.com/konotorii/kono-components/compare/v0.3.0...v0.3.1) (2024-06-25)
 
 
