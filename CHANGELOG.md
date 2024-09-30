@@ -1,3 +1,12 @@
+## [0.4.2](https://github.com/konotorii/kono-components/compare/v0.4.1...v0.4.2) (2024-09-30)
+
+
+### Bug Fixes
+
+* Deleted github package workflow ([260f43a](https://github.com/konotorii/kono-components/commit/260f43afc837cc0972298c5b023194efe2f387c0))
+
+
+
 ## [0.4.1](https://github.com/konotorii/kono-components/compare/v0.4.0...v0.4.1) (2024-09-30)
 
 
@@ -47,16 +56,6 @@
 * TS config ([#1](https://github.com/konotorii/kono-components/issues/1)) ([493806e](https://github.com/konotorii/kono-components/commit/493806e802b3c61ea8df34ea0c2de1f5d0750521))
 * Upload box ([#3](https://github.com/konotorii/kono-components/issues/3)) ([911514b](https://github.com/konotorii/kono-components/commit/911514b9e2cf9758a3fcb6fd9e0b11ae91f3657e))
 * Vite config ([#1](https://github.com/konotorii/kono-components/issues/1)) ([19a5ec9](https://github.com/konotorii/kono-components/commit/19a5ec9bf7426f60481df2cfd3f580cb93a67648))
-
-
-
-# [0.2.0](https://github.com/konotorii/kono-components/compare/v0.1.0...v0.2.0) (2024-06-13)
-
-
-### Features
-
-* Added axios dependency ([58e1e54](https://github.com/konotorii/kono-components/commit/58e1e54d261960c8c7da18ac739e034e63790c85))
-* Upload Files Function ([f160ee7](https://github.com/konotorii/kono-components/commit/f160ee74b95fd7533be63bf2024a71c028d7d0d9))
 
 
 
